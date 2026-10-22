@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exemplo — UniCIVE Design System</title>
+  <link rel="stylesheet" href="../dist/styles.css">
+  <style>
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-sans); }
+    main { max-width: 1200px; margin: 0 auto; padding: var(--space-6) var(--space-5); display: grid; gap: var(--space-5); }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); }
+    .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; justify-content: space-between; }
+    .form { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); align-items: start; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="../dist/unicive.umd.js"></script>
+  <script>
+    const h = React.createElement;
+    const { AppHeader, Button, Card, DataTable, Badge, Tabs, TextField, Select, Alert } = window.UniCIVE;
+    const rows = [
+      { id: 1, curso: 'Administração', nivel: 'graduacao', nl: 'Graduação', alunos: 412, st: 'success', stl: 'Conciliado' },
+      { id: 2, curso: 'Gestão Escolar', nivel: 'pos', nl: 'Pós-graduação', alunos: 87, st: 'warning', stl: 'Pendente' },
+      { id: 3, curso: 'Educação Digital', nivel: 'extensao', nl: 'Extensão', alunos: 1205, st: 'danger', stl: 'Sem ID' }
+    ];
+    function App() {
+      const [theme, setTheme] = React.useState('light');
+      const [tab, setTab] = React.useState('oferta');
+      React.useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
+      return h(React.Fragment, null,
+        h(AppHeader, { logoSrc: '../logos/unicive-horizontal-sobre-escuro.svg', title: 'Exemplo', current: 'oferta', user: { name: 'Luiz Canhete' },
+          nav: [{ id: 'oferta', label: 'Oferta' }, { id: 'ids', label: 'IDs Moodle' }] },
+          h(Button, { size: 'sm', variant: 'accent', onClick: () => setTheme(theme === 'light' ? 'dark' : 'light') }, theme === 'light' ? 'Tema escuro' : 'Tema claro')),
+        h('main', null,
+          h('div', { className: 'row' },
+            h('h1', { className: 'uc-h1', style: { margin: 0 } }, 'Oferta 2026/2'),
+            h(Tabs, { label: 'Visões', value: tab, onChange: setTab, items: [{ id: 'oferta', label: 'Oferta', count: 3 }, { id: 'pend', label: 'Pendências', count: 1 }] })),
+          h('div', { className: 'kpis' },
+            h(Card, { eyebrow: 'Graduação', value: '128' }, 'cursos ofertados'),
+            h(Card, { tone: 'accent', eyebrow: 'Atenção', value: '12' }, 'IDs sem conciliação'),
+            h(Card, { tone: 'brand', eyebrow: 'Em destaque', title: 'Educação na vida real.' }, 'Ensino que vai além da sala de aula.')),
+          h(Alert, { kind: 'info', title: 'Novo semestre' }, 'A oferta de 2026/2 já está disponível.'),
+          h('div', { className: 'form' },
+            h(TextField, { label: 'Buscar curso', iconStart: 'search', placeholder: 'Nome ou código' }),
+            h(Select, { label: 'Nível de ensino', placeholder: 'Todos', options: [{ value: 'grad', label: 'Graduação' }, { value: 'pos', label: 'Pós-graduação' }] })),
+          h(DataTable, { caption: 'Cursos', rows, columns: [
+            { key: 'curso', header: 'Curso' },
+            { key: 'nivel', header: 'Nível', render: (r) => h(Badge, { sector: r.nivel, size: 'sm' }, r.nl) },
+            { key: 'alunos', header: 'Alunos', numeric: true },
+            { key: 'st', header: 'Situação', render: (r) => h(Badge, { status: r.st, size: 'sm' }, r.stl) }
+          ] })));
+    }
+    ReactDOM.createRoot(document.getElementById('app')).render(h(App));
+  </script>
+</body>
+</html>

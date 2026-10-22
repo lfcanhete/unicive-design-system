@@ -1,0 +1,43 @@
+{
+  "name": "@unicive/design-system",
+  "version": "1.2.0",
+  "description": "Design system do UniCIVE: tokens, tema Tailwind, componentes React, fontes e logos.",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./components.css": "./dist/components.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./tailwind.css": "./tailwind/theme.css",
+    "./tailwind-preset": "./tailwind/preset.cjs",
+    "./umd": "./dist/unicive.umd.js",
+    "./logos/*": "./logos/*",
+    "./fonts/*": "./fonts/*",
+    "./GUIDE.md": "./GUIDE.md",
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "tailwind", "fonts", "logos", "src", "scripts", "GUIDE.md", "AGENTS.md", "README.md", "examples"],
+  "sideEffects": ["*.css"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepare": "node scripts/build.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true },
+    "react-dom": { "optional": true }
+  },
+  "license": "UNLICENSED",
+  "private": true
+}
